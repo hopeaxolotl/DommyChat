@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>discord html template</title>
+  <link rel="stylesheet" href="style.css" />
+  
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Channels</h2>
+    <div class="channel"># general</div>
+    <div class="channel"># test1</div>
+    <div class="channel"># test2</div>
+  </div>
+
+  <div id="main">
+    <div id="chat"></div>
+    <div id="inputArea">
+      <input type="text" id="messageInput" placeholder="Message #general..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function sendMessage() {
+      const msg = input.value.trim();
+      if (msg !== "") {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message";
+        msgDiv.innerHTML = `
+          <span class="author">You</span>
+          <span class="text">${msg}</span>
+        `;
+        chat.appendChild(msgDiv);
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>
