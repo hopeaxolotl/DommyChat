@@ -1,52 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>discord html template</title>
-  <link rel="stylesheet" href="style.css" />
-  
+    <meta charset="UTF-8">
+    <title>DommyChat</title>
+    <link rel="icon" type="image/png" href="assets/general/logo.png" />
+    <link rel="stylesheet" href="makedoniya.css">
+    <link rel="stylesheet" href="https://unpkg.com/7.css/dist/7.scoped.css" />
 </head>
 <body>
-  <div id="sidebar">
-    <h2>Channels</h2>
-    <div class="channel"># general</div>
-    <div class="channel"># test1</div>
-    <div class="channel"># test2</div>
-  </div>
+    <div id = "loginScreen" class="login-screen">
+        <img src="assets/background/kniga.png" alt="DommyChat Sign In" />
 
-  <div id="main">
-    <div id="chat"></div>
-    <div id="inputArea">
-      <input type="text" id="messageInput" placeholder="Message #general..." />
-      <button id="sendBtn">Send</button>
+        <input type="text" class="displayNameInput" id="displayNameInput" placeholder="example@name.fuckyou" />
+
+        <div class="win7">
+        <button class="signin-btn" onclick="login()">Sign in</button>
+        <button class="cancel-btn">Cancel</button>
+        </div>
+
+        <button class="language-btn rus-btn">русский</button>
+        <button class="language-btn srp-btn">српски</button>
+        <button class="language-btn bul-btn">български</button>
     </div>
-  </div>
 
-  <script>
-    const chat = document.getElementById("chat");
-    const input = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
+    <div class="mainwindow" id="chat">
+        <div class="connection-status disconnected" id="connectionStatus">Connecting...</div>
+        
+        <div class="header">
+            <div id="info">
+                <img id="chaticon" src="https://images.vectorhq.com/images/previews/4f8/msn-messenger-icon-psd-449180.png">
+                <div id="text">
+                    <span id="name">dommychat main server</span>
+                    <span id="message">ta n'ennym orrym kerron and the manx word of the day is Kiarkyl</span>
+                </div>
+            </div>
+            <div id="navbars">
+                <ul class="chatnav" id="left">
+                    <button class="aerobutton chataction" title="notusedyet"
+                        style="background:url(assets/chat-window/1441.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction" title="notusedyet"
+                        style="background:url(assets/chat-window/1444.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction" title="notusedyet"
+                        style="background:url(assets/chat-window/1447.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction" title="notusedyet"
+                        style="background:url(assets/chat-window/1442.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction" title="notusedyet"
+                        style="background:url(assets/chat-window/1443.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction" title="notusedyet"
+                        style="background:url(assets/chat-window/326.png) no-repeat center;"></button>
+                </ul>
+                <ul class="chatnav" id="right">
+                    <button class="aerobutton chataction" title="Exit" onclick="logout()"
+                        style="background:url(assets/chat-window/329.png) no-repeat center; margin-top: 1px;"></button>
+                    
+                    <div style="position: relative; display: inline-block; margin-left: 5px;">
+                        <button class="aerobutton chataction smallarrowbtn" id="moreoptions" onclick="toggleSettings()">
+                            <img src="assets/chat-window/1489.png" style="height: 16px;">
+                            <img class="arrowdown" src="assets/general/small_arrow_black.svg">
+                        </button>
+                        <div id="settingsPanel" class="settings-panel">
+                            <label class="checkbox">
+                                <input type="checkbox" id="soundEnabled"> Sound
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="dateFormatUS"> US Date Format
+                            </label>
+                            <button onclick="saveSettings()">Save Settings</button>
+                            <button onclick="toggleSettings()">Close</button>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            
+        </div>
+        <div class="conversation">
+            <div id="messages">
+                <div id="recieve">
+                    <div class="alerts">
+                        <img src="assets/chat-window/1539.png" alt="">
+                        <p class="alerttext" id="statusAlert">Ready to chat...</p>
+                    </div>
+                    <div class="chattext" id="display">
+                        <p class="status-message">🌟 Welcome to DommyChat! Start chatting...</p>
+                    </div>
+                </div>
+                <div id="handle"></div>
+                <div id="send">
+                    <ul id="options">
+                        <button class="aerobutton textoption smallarrowbtn" title="Emoticon">
+                            <img src="assets/chat-window/412.png">
+                            <img class="arrowdown" src="assets/general/small_arrow_black.svg">
+                        </button>
+                        <button class="aerobutton textoption smallarrowbtn" title="Font">
+                            <img src="assets/chat-window/1487.png">
+                            <img class="arrowdown" src="assets/general/small_arrow_black.svg">
+                        </button>
+                        <button class="aerobutton textoption noarrow" title="Send a nudge"
+                            style="background: url(assets/chat-window/414.png) no-repeat center;" onclick="sendNudge()"></button>
+                        <button class="aerobutton textoption noarrow" title="Italic"
+                            style="background: url(assets/chat-window/992.png) no-repeat center;"></button>
+                        <button class="textoption" title="Underline"
+                            style="background: url(assets/chat-window/20204.png) no-repeat center; border: none;"></button>
+                        <button class="aerobutton textoption noarrow" title="Color"
+                            style="background: url(assets/chat-window/411.png) no-repeat center;"></button>
+                    </ul>
+                    <textarea class="chattext" id="write" placeholder="Type your message here..." onkeydown="handleKeyPress(event)"></textarea>
+                    <div id="bottomtabs">
+                        <button class="editortab selected">
+                            <img src="assets/chat-window/963.png">
+                        </button>
+                        <button class="editortab unselected">
+                            <img src="assets/chat-window/961.png">
+                        </button>
+                        <div>
+                            <button id="sendbutton" onclick="sendMessage()">Send</button>
+                            <button id="search" title="Search" onclick="clearInput()"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="avatars">
+                <div id="topavatar">
+                    <div class="avatar-container">
+                        <img src="assets/background/framemk.png" alt="Avatar" class="avatar-frame-image">
+                    </div>
+                    <div class="avatarnav">
+                        <button class="aerobutton avataraction"
+                            style="background: url(assets/chat-window/268.png) no-repeat center;"></button>
+                        <button class="aerobutton avataraction"
+                            style="background: url(assets/chat-window/1457.png) no-repeat center; float: right;"></button>
+                    </div>
+                    <div class="serverdescription">
+                        <label><span style="font-weight: bold;">DommyChat Main Server</span></label>
+                        <label>Kosovo je Srbija</label>
+                        <label>Македония е Бьлгария</label>
+                        <label>От луганжелез</label>
+                        <label>Габрель - Македонец</label>
+                        <label>Тайлър е Мексиканец</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    function sendMessage() {
-      const msg = input.value.trim();
-      if (msg !== "") {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = "message";
-        msgDiv.innerHTML = `
-          <span class="author">You</span>
-          <span class="text">${msg}</span>
-        `;
-        chat.appendChild(msgDiv);
-        input.value = "";
-        chat.scrollTop = chat.scrollHeight;
-      }
-    }
-
-    sendBtn.addEventListener("click", sendMessage);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-  </script>
+    <script src="albanskipidoras.js"></script>
 </body>
 </html>

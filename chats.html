@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Windows Live Messenger - Chat</title>
+    <link rel="icon" type="image/png" href="assets/general/logo.png" />
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            position: relative;
+        }
+
+        body {
+            height: 100%;
+            font-family: "Tahoma", sans-serif;
+            font-size: 8pt;
+            margin: 0;
+            padding: 10px;
+        }
+
+        a {
+            color: #0088e4;
+        }
+
+        .mainwindow {
+            background-color: #ECF6F9;
+            border: thin solid #707070;
+            border-radius: 8px;
+            box-shadow: 0 0 5px #00000050;
+            height: 100vh;
+            min-height: 440px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .aerobutton {
+            background-color: transparent;
+            border: 2px solid transparent;
+        }
+        .aerobutton:hover {
+            border-image: url("assets/general/aerobutton_border.png") 2 round;
+            background-size: 100% 100%;
+        }
+        .aerobutton:active {
+            border-image: url("assets/general/aerobutton_border_down.png") 2 round;
+        }
+
+        .smallarrowbtn {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            align-items: center;
+        }
+        .arrowdown {
+            height: 5px;
+            margin-left: 4px;
+        }
+        #moreoptions {
+            padding: 0 3px;
+            width: 40px;
+        }
+
+        .alerts {
+            display: flex;
+            align-items: center;
+            height: 19px;
+            background-color: white;
+            border: thin solid #bed6e0;
+            border-bottom: none;
+        }
+        .alerttext {
+            margin: 0; margin-left: 3px; 
+        }
+
+        /* Chat specific styles */
+        #chat {
+            height: 100%;
+            width: 100%;
+            min-width: 420px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #chat > .header {
+            border-top: thin solid #707070;
+            image-rendering: pixelated;
+            background-image: url("assets/background/chat_header.png");
+            background-size: 100% 100%;
+            margin: 0;
+            height: 77px;
+            padding: 7px;
+            box-shadow: 0px 1px 4px #00000057;
+        }
+        #info {
+            display: flex;
+        }
+        #chaticon {
+            height: 16px;
+        }
+        #text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 5px;
+        }
+        #text > #name {
+            font-weight: bold;
+            color: #333333;
+        }
+        #text > #message {
+            color: #6F8A92;
+            margin: 0;
+        }
+        
+        #navbars {
+            display: flex;
+            flex-direction: row;
+            margin-top: 3px;
+            justify-content: space-between;
+        }
+        .chatnav {
+            list-style: none;
+            margin: 0;
+            height: 33px;
+            padding: 0;
+        }
+        .chataction {
+            height: 100%;
+            width: 33px;
+            margin-left: 5px;
+        }
+        .chatnav > #left {
+            width: 100%;
+            min-width: 230px;
+        }
+        .chatnav > #right {
+            width: 10%;
+            min-width: 84px;
+        }
+        .chatnav#left > .chataction {
+            float: left;
+        }
+        .chatnav#right > .chataction {
+            float: right;
+        }
+
+        .conversation {
+            height: 100%;
+            display: flex;
+            padding: 10px;
+            padding-right: 0;
+            padding-bottom: 15px;
+        }
+        #messages {
+            width: 100%;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chattext {
+            font-family: "Tahoma", sans-serif;
+            width: 100%;
+            resize: none;
+            border: thin solid #BED6E0;
+            padding: 4px 8px;
+        }
+        #recieve {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        #display {
+            margin: 0;
+            height: 100%;
+        }
+        
+        #handle {
+            background-image: url("assets/chat-window/30417.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 10px;
+        }
+        
+        #send {
+            display: flex;
+            flex-direction: column;
+            min-height: 130px;
+            height: 200px;
+        }
+        #options {
+            background-image: url("assets/background/chat_editheader.png");
+            border: thin solid #bed6e0;
+            height: 29px;
+            margin: 0;
+            padding: 2px;
+        }
+        .textoption {
+            height: 24px;
+            width: auto;
+            padding: 0 4px;
+            float: left;
+        }
+        .noarrow {
+            width: 32px;
+        }
+        #write {
+            height: 100%;
+            margin: 0;
+            border-top: none;
+            font-size: 10pt;
+        }
+        #bottomtabs {
+            display: flex;
+            justify-content: space-between;
+            height: 24px;
+            margin: 0;
+            position: relative;
+        }
+        .editortab {
+            width: 26px;
+            height: 24px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: thin solid #bed6e0;
+            border-top: none;
+            background-color: white;
+        }
+        .selected {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 25px;
+            border-top: 2px solid white;
+        }
+        .unselected {
+            margin-left: 25px;
+            border-left: none;
+            background: url("assets/chat-window/editortab.png");
+            image-rendering: pixelated;
+        }
+        .unselected:hover {
+            background: url("assets/chat-window/editortab_down.png");
+            background-size: 100% auto;
+            image-rendering: pixelated;
+        }
+        #sendbutton {
+            height: 21px;
+            padding: 0 18px;
+            margin: 2px;
+            font-size: 8pt;
+            color: #001563;
+            background-image: url("assets/general/button_inside.png");
+            background-size: 100% auto;
+            border: 3px solid transparent;
+            border-image: url("assets/general/button_border.png") 3;
+        }
+        #sendbutton:hover {
+            border-image: url("assets/general/button_border_focus.png") 3;
+        }
+        #sendbutton:active {
+            padding: 0 20px;
+            filter: brightness(93%);
+            border: thin solid #286088;
+            border-radius: 3px;
+            box-shadow: inset 1px 1px 2px #00000077;
+        }
+        #sendbutton:disabled {
+            background-image: none;
+            background-color: #f0f0f0;
+            border-image: url("assets/general/button_border_disabled.png") 3;
+            color: #c9c1c1;
+        }
+
+        #search {
+            float: right;
+            width: 23px;
+            height: 21px;
+            margin: 2px;
+            background: url("assets/chat-window/653_multi.png") 0 0;
+            border: none;
+        }
+        #search:hover {
+            background: url("assets/chat-window/653_multi.png") -23px 0;
+        }
+        #search:active {
+            background: url("assets/chat-window/653_multi.png") -46px 0;
+        }
+        #search:disabled {
+            background: url("assets/chat-window/653_multi.png") -69px 0;
+        }
+
+        #avatars {
+            height: 100%;
+            position: relative;
+        }
+        #topavatar {
+            position: relative;
+        }
+        #bottomavatar {
+            position: absolute;
+            bottom: 0;
+        }
+        .avatar {
+            margin: 9px;
+            height: 96px;
+            border-radius: 2px;
+        }
+        .frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .avatarnav {
+            height: 18px;
+        }
+        .avataraction {
+            height: 100%;
+        }
+
+        #expand {
+            margin-left: 18px;
+        }
+        .expandbutton {
+            background: url(assets/chat-window/1450_multi.png) 0 0;
+            background-repeat: no-repeat;
+            border: none;
+            padding: 0;
+            width: 12px;
+            height: 31px;
+        }
+        .expandbutton:hover {
+            background: url(assets/chat-window/1450_multi.png) 26px 0;
+        }
+        .expandbutton:active {
+            background: url(assets/chat-window/1450_multi.png) 13px 0;
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 17px;
+            cursor: pointer;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: white;
+            border-left: thin solid #E2EAF3;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: url("assets/scrollbar/circle_hover.png") no-repeat center, url("assets/scrollbar/bar.png") no-repeat;
+            background-size: auto, 100% 100%;
+            border: thin solid #A8C1DA;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: url("assets/scrollbar/circle_hover.png") no-repeat center, url("assets/scrollbar/bar_hover.png") no-repeat;
+            background-size: auto, 100% 100%;
+            border: thin solid #4A95C9;
+        }
+        ::-webkit-scrollbar-thumb:active {
+            background: url("assets/scrollbar/circle_down.png") no-repeat center, url("assets/scrollbar/bar_down.png") no-repeat;
+            background-size: auto, 100% 100%;
+            border: thin solid #4388B5;
+        }
+
+        ::-webkit-scrollbar-button:single-button:vertical:decrement {
+            background-image: url("assets/scrollbar/arrow_up.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        ::-webkit-scrollbar-button:single-button:vertical:increment {
+            background-image: url("assets/scrollbar/arrow_down.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        ::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+            background: url("assets/scrollbar/arrow_up_hover.png") no-repeat center, url("assets/scrollbar/button_hover.png");
+        }
+        ::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+            background: url("assets/scrollbar/arrow_down_hover.png") no-repeat center, url("assets/scrollbar/button_hover.png");
+        }
+
+        ::-webkit-scrollbar-button:single-button:vertical:decrement:active {
+            background: url("assets/scrollbar/arrow_up_hover.png") no-repeat center, url("assets/scrollbar/button_down.png");
+        }
+        ::-webkit-scrollbar-button:single-button:vertical:increment:active {
+            background: url("assets/scrollbar/arrow_down_hover.png") no-repeat center, url("assets/scrollbar/button_down.png");
+        }
+    </style>
+</head>
+<body>
+    <div class="mainwindow" id="chat">
+        <div class="header">
+            <div id="info">
+                <img id="chaticon" src="assets/chat-window/61.ico">
+                <div id="text">
+                    <span id="name">Alto</span>
+                    <span id="message">Wow, this is cool =) &lt;root@altodev.pw&gt;</span>
+                </div>
+            </div>
+            <div id="navbars">
+                <ul class="chatnav" id="left">
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/1441.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/1444.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/1447.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/1442.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/1443.png) no-repeat center;"></button>
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/326.png) no-repeat center;"></button>
+                </ul>
+                <ul class="chatnav" id="right">
+                    <button class="aerobutton chataction smallarrowbtn" id="moreoptions">
+                        <img src="assets/chat-window/1489.png" style="height: 16px;">
+                        <img class="arrowdown" src="assets/general/small_arrow_black.svg">
+                    </button>
+                    <button class="aerobutton chataction"
+                        style="background:url(assets/chat-window/329.png) no-repeat center;"></button>
+                </ul>
+            </div>
+        </div>
+        <div class="conversation">
+            <div id="messages">
+                <div id="recieve">
+                    <div class="alerts">
+                        <img src="assets/chat-window/1539.png" alt="">
+                        <p class="alerttext">Alto is Busy and may not reply</p>
+                    </div>
+                    <textarea class="chattext" id="display" readonly>Lorem ipsum dolor sit amet, dicta dolor instructior no ius, congue melius qualisque in sed. Ne impedit accusam assueverit duo. Ex pro sumo eros offendit. Quo iriure salutandi at. His dicta viris dolores cu, ut sed recusabo elaboraret. At volutpat consulatu sed, cum id munere atomorum.
+
+Albucius antiopam et pro, has semper iracundia ne. Cu sed utamur molestiae. Duis novum omittam pri ne. Ex sadipscing temporibus pri, assum utamur diceret mei no. Clita splendide eu vel, sumo dicta graeco has ut.
+
+Et nulla expetenda pertinacia vim, pri elit inciderint ea. Ad facer percipitur voluptatibus cum. Id vis reque consetetur, ludus tollit urbanitas id sit, usu dicunt regione scriptorem ne. Copiosae sapientem ne pri, assum tempor facete vel no. Et justo impedit referrentur his, ne mel prima prodesset vituperata.
+
+Ne posse mundi expetenda eam, iisque omittam ea has. Suas affert iudicabit cu vix, verear interesset te sea. An est nusquam ancillae, cetero imperdiet et eam, tale meliore ea sea. Dicit labores ne mel, ne qui paulo intellegat. Quo laudem fabulas phaedrum ea, mel te persecuti honestatis. Duo eu prima legere sadipscing.
+
+Ei assentior gloriatur expetendis mea, an mea fuisset eloquentiam consequuntur. Nisl iracundia ne quo. Quo dicat concludaturque ut, graeci tractatos an eam. Libris latine persius in eos, eu dicit elitr quidam quo, at debet ignota adolescens ius. An diam debitis mel, est te indoctum complectitur.
+
+Id libris praesent interesset vim, has tamquam aliquam ne, suas debitis et duo. Molestie expetendis at vel. Esse veniam his id, mucius placerat ne nec, ne nam possim reprehendunt. Dictas sanctus eos te. Mel elaboraret mediocritatem ne, nec eu tritani moderatius. Saperet laboramus id mea, zril libris urbanitas mei id, ius at nobis oportere consetetur. Modo signiferumque cu quo, cu quo prima albucius rationibus.
+
+Mel id minimum delicatissimi. Usu ignota nonumes civibus at, at tempor patrioque moderatius nam, postulant gloriatur mel no. Sed fabellas maiestatis cu, cu per impedit epicuri, cu vim utroque impedit quaerendum. Ut eam aeterno vivendum vituperata, pri utroque placerat no, cum et latine voluptua. Eam veniam dignissim id.
+
+Audiam prodesset nec te. At sit clita officiis intellegat. Facete verear invenire sed ad. No diam perfecto appellantur vix, ne cum malis option mnesarchum, sit in decore eripuit epicuri. Ipsum summo eirmod ex has.
+
+His habeo reprehendunt at, duo ei elitr imperdiet. Per in quaeque veritus facilisis. Duo ea duis definiebas repudiandae, per nemore meliore comprehensam ei. Mel recusabo consulatu ut. Timeam definitionem duo id, cu nam elitr admodum explicari. Pro delenit senserit convenire id, nec ad iisque aliquip eripuit.
+
+Est ut dicta disputando, postea legimus eos eu. Est ea harum platonem, cu docendi reprehendunt his. Has ubique nostrud at, vix doming iracundia ne. Summo primis inciderint duo at, vim ex tantas apeirian abhorreant. Te posse nominavi est, decore expetenda in cum, has constituto elaboraret et. Ut appetere conclusionemque quo, an option fuisset efficiendi vel, dicant copiosae usu an.</textarea>
+                </div>
+                <div id="handle"></div>
+                <div id="send">
+                    <ul id="options">
+                        <button class="aerobutton textoption smallarrowbtn">
+                            <img src="assets/chat-window/412.png">
+                            <img class="arrowdown" src="assets/general/small_arrow_black.svg">
+                        </button>
+                        <button class="aerobutton textoption smallarrowbtn">
+                            <img src="assets/chat-window/1487.png">
+                            <img class="arrowdown" src="assets/general/small_arrow_black.svg">
+                        </button>
+                        <button class="aerobutton textoption noarrow"
+                            style="background: url(assets/chat-window/414.png) no-repeat center;"></button>
+                        <button class="aerobutton textoption noarrow"
+                            style="background: url(assets/chat-window/992.png) no-repeat center;"></button>
+                        <button class="textoption"
+                            style="background: url(assets/chat-window/20204.png) no-repeat center; border: none;"></button>
+                        <button class="aerobutton textoption noarrow"
+                            style="background: url(assets/chat-window/411.png) no-repeat center;"></button>
+                    </ul>
+                    <textarea class="chattext" id="write" placeholder="Type your message here..."></textarea>
+                    <div id="bottomtabs">
+                        <button class="editortab selected">
+                            <img src="assets/chat-window/963.png">
+                        </button>
+                        <button class="editortab unselected">
+                            <img src="assets/chat-window/961.png">
+                        </button>
+                        <div>
+                            <button id="sendbutton" disabled>Send</button>
+                            <button id="search" disabled></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="avatars">
+                <div id="topavatar">
+                    <img class="avatar" src="assets/chat-window/1531.png" alt="">
+                    <img class="frame" src="assets/background/frame_96.png">
+                    <div class="avatarnav">
+                        <button class="aerobutton avataraction"
+                            style="background: url(assets/chat-window/268.png) no-repeat center;"></button>
+                        <button class="aerobutton avataraction"
+                            style="background: url(assets/chat-window/1457.png) no-repeat center; float: right;"></button>
+                    </div>
+                </div>
+                <div id="bottomavatar">
+                    <img class="avatar" src="assets/01CAT.jpg" alt="">
+                    <img class="frame" src="assets/background/frame_96.png">
+                    <div class="avatarnav">
+                        <button class="aerobutton avataraction"
+                            style="background: url(assets/chat-window/1457.png) no-repeat center; float: right;"></button>
+                    </div>
+                </div>
+            </div>
+            <div id="expand">
+                <button class="expandbutton"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

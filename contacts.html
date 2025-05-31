@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Windows Live Messenger</title>
+        <link rel="icon" type="image/png" href="assets/general/logo.png" />
+
+        <style>
+            * {
+            -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+            }
+
+            html {
+                min-height: 100%;
+                position: relative;
+            }
+
+            body {
+                height: 100%;
+                font-family: "Tahoma", sans-serif;
+                font-size: 8pt;
+            }
+
+            a {
+                color: #0088e4;
+            }
+
+            .main {
+                display: flex;
+                height: 100vh;
+                min-height: 440px;
+                padding: 10px;
+
+                position:absolute;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
+                overflow:hidden;
+            }
+        </style>
+
+        <link rel="stylesheet" type="text/css" href="defaults.css">
+        <link rel="stylesheet" type="text/css" href="contacts.css">
+    </head>
+    <body>
+        <div class="main">
+            <div class="mainwindow" id="contacts">
+                <div class="header">
+                    <div class="titlebar">
+                        <img src="assets/general/live_logo.png" alt="Windows Live Logo">
+                        <img id="title" src="assets/general/title_text.png">
+                    </div>
+                    <div class="user-info">
+                        <img id="avatar" src="assets/01CAT.jpg" alt="Profile Picture">
+                        <img id="frame"  src="assets/background/frame_48.png">
+                        <div class="profile">
+                            <button class="aerobutton" id="user">
+                                <h3>AndroidWG</h3>
+                                <p id="status">(Busy)</p>
+                                <img class="arrowdown arrowcontacts" src="assets/general/small_arrow_lightblue.svg">
+                            </button>
+                            <button class="aerobutton" id="message">
+                                <p style="margin: 0;">stayin alive</p>
+                                <img class="arrowdown arrowcontacts" src="assets/general/small_arrow_lightblue.svg">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="contactsnav">
+                    <ul class="iconbar" id="left">
+                        <button class="aerobutton contactaction" style="background:url(assets/contacts-window/1480.png) no-repeat center;"></button>
+                        <button class="aerobutton contactaction" style="background:url(assets/contacts-window/978.png) no-repeat center;"></button>
+                        <button class="aerobutton contactaction" style="background:url(assets/contacts-window/1484.png) no-repeat center;"></button>
+                    </ul>
+                    <ul class="iconbar" id="right">
+                        <button class="aerobutton contactaction smallarrowbtn" id="moreoptions">
+                            <img src="assets/contacts-window/1489.png" style="height: 16px;">
+                            <img class="arrowdown" src="assets/general/small_arrow.svg">
+                        </button>
+                        <button class="aerobutton contactaction" style="background:url(assets/contacts-window/329.png) no-repeat center;"></button>
+                    </ul>
+                </div>
+                <div class="search">
+                    <input id="contact-search" type="text" placeholder="Find a contact...">
+                    <button class="searchbar-btn" style="background:url(assets/contacts-window/1131.png) no-repeat center;"></button>
+                    <button class="searchbar-btn" style="background:url(assets/contacts-window/1132.png) no-repeat center;"></button>
+                </div>
+                <ul class="contact-list">
+                    <button class="listitem headerlist">
+                        <img class="arrow" src="assets/general/arrow_placeholder.png">
+                        <b>Online ( 4 )</b>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/online.png" alt="Online">
+                        <span class="contact-text name">ThatXPUser&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">i'm sad all day until i get to talk with friends, online friends that is</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/busy.png" alt="Busy">
+                        <span class="contact-text name">ctaetsh&nbsp;-&nbsp;</span>
+                        <img class="emoticon" src="assets/contacts-window/595.png">
+                        <a href="http://notimplemented.lol" class="contact-text message">Black Eyed Peas - I Gotta Feeling</a>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/away.png" alt="Away">
+                        <span class="contact-text name">jake&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">working on writing for ao3!!</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/online.png" alt="Online">
+                        <span class="contact-text name">ThatXPUser&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">i'm sad all day until i get to talk with friends, online
+                            friends that is</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/online.png" alt="Busy">
+                        <span class="contact-text name">ctaetsh&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">i'm sad all day until i get to talk with friends, online
+                            friends that is</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/away.png" alt="Away">
+                        <span class="contact-text name">glassofwater369&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">working on writing for ao3!!</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/away.png" alt="Online">
+                        <span class="contact-text name">yellows47&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">i'm sad all day until i get to talk with friends, online
+                            friends that is</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/online.png" alt="Busy">
+                        <span class="contact-text name">ctaetsh&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">i'm sad all day until i get to talk with friends, online
+                            friends that is</p>
+                    </button>
+                    <button class="listitem contact">
+                        <img class="aerobutton status-icon" src="assets/status/away.png" alt="Away">
+                        <span class="contact-text name">jake&nbsp;-&nbsp;</span>
+                        <p class="contact-text message" style="color: darkgray;">working on writing for ao3!!</p>
+                    </button>
+                </ul>
+                <div id="footer">
+                    <span style="color: #9bb3d4;">Advertisement</span>
+                    <img id="ad" src="assets/ad.png" alt="">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

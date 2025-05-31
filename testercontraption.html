@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DommyChat Sign In</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            position: relative;
+            margin-bottom: 30px;
+            border: 2px dashed #ccc;
+        }
+        .controls {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 500px;
+            max-width: 100%;
+        }
+        .control-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+        input[type="number"], input[type="text"] {
+            width: 60px;
+            padding: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
+        }
+        .overlay-element {
+            position: absolute;
+            box-sizing: border-box;
+        }
+        #signin-btn {
+            background-color: rgba(255, 0, 0, 0.3);
+            border: 2px solid red;
+            color: black;
+        }
+        #cancel-btn {
+            background-color: rgba(0, 255, 0, 0.3);
+            border: 2px solid green;
+            color: black;
+        }
+        .language-btn {
+            background-color: rgba(0, 0, 255, 0.3);
+            border: 2px solid blue;
+            color: black;
+            text-align: center;
+        }
+        #input-box {
+            background-color: rgba(255, 255, 0, 0.3);
+            border: 2px solid orange;
+            color: black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DommyChat Sign-In Overlay Editor</h1>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="input-top">Input Box:</label>
+            Top: <input type="number" id="input-top" value="100">
+            Left: <input type="number" id="input-left" value="100">
+            Width: <input type="number" id="input-width" value="200">
+            Height: <input type="number" id="input-height" value="30">
+        </div>
+        
+        <div class="control-group">
+            <label for="signin-top">Sign In Button:</label>
+            Top: <input type="number" id="signin-top" value="150">
+            Left: <input type="number" id="signin-left" value="100">
+            Width: <input type="number" id="signin-width" value="80">
+            Height: <input type="number" id="signin-height" value="30">
+        </div>
+        
+        <div class="control-group">
+            <label for="cancel-top">Cancel Button:</label>
+            Top: <input type="number" id="cancel-top" value="150">
+            Left: <input type="number" id="cancel-left" value="220">
+            Width: <input type="number" id="cancel-width" value="80">
+            Height: <input type="number" id="cancel-height" value="30">
+        </div>
+        
+        <div class="control-group">
+            <label for="rus-top">Russian Button:</label>
+            Top: <input type="number" id="rus-top" value="220">
+            Left: <input type="number" id="rus-left" value="100">
+            Width: <input type="number" id="rus-width" value="80">
+            Height: <input type="number" id="rus-height" value="20">
+        </div>
+        
+        <div class="control-group">
+            <label for="srp-top">Serbian Button:</label>
+            Top: <input type="number" id="srp-top" value="220">
+            Left: <input type="number" id="srp-left" value="190">
+            Width: <input type="number" id="srp-width" value="80">
+            Height: <input type="number" id="srp-height" value="20">
+        </div>
+        
+        <div class="control-group">
+            <label for="bul-top">Bulgarian Button:</label>
+            Top: <input type="number" id="bul-top" value="220">
+            Left: <input type="number" id="bul-left" value="280">
+            Width: <input type="number" id="bul-width" value="80">
+            Height: <input type="number" id="bul-height" value="20">
+        </div>
+        
+        <button onclick="updatePositions()">Update Positions</button>
+        <button onclick="copyHTML()">Copy HTML</button>
+    </div>
+    
+    <div class="container">
+        <img src="assets/background/kniga.png" alt="DommyChat Sign In" id="base-image">
+        
+        <input type="text" id="input-box" class="overlay-element" placeholder="Username or email">
+        <button id="signin-btn" class="overlay-element">Sign in</button>
+        <button id="cancel-btn" class="overlay-element">Cancel</button>
+        <button id="rus-btn" class="overlay-element language-btn">русский</button>
+        <button id="srp-btn" class="overlay-element language-btn">српски</button>
+        <button id="bul-btn" class="overlay-element language-btn">български</button>
+    </div>
+    
+    <div id="html-output" style="display: none; width: 500px; max-width: 100%; background: white; padding: 15px; border-radius: 5px; margin-top: 20px;"></div>
+
+    <script>
+        function updatePositions() {
+            document.getElementById('input-box').style.top = document.getElementById('input-top').value + 'px';
+            document.getElementById('input-box').style.left = document.getElementById('input-left').value + 'px';
+            document.getElementById('input-box').style.width = document.getElementById('input-width').value + 'px';
+            document.getElementById('input-box').style.height = document.getElementById('input-height').value + 'px';
+            
+            document.getElementById('signin-btn').style.top = document.getElementById('signin-top').value + 'px';
+            document.getElementById('signin-btn').style.left = document.getElementById('signin-left').value + 'px';
+            document.getElementById('signin-btn').style.width = document.getElementById('signin-width').value + 'px';
+            document.getElementById('signin-btn').style.height = document.getElementById('signin-height').value + 'px';
+            
+            document.getElementById('cancel-btn').style.top = document.getElementById('cancel-top').value + 'px';
+            document.getElementById('cancel-btn').style.left = document.getElementById('cancel-left').value + 'px';
+            document.getElementById('cancel-btn').style.width = document.getElementById('cancel-width').value + 'px';
+            document.getElementById('cancel-btn').style.height = document.getElementById('cancel-height').value + 'px';
+            
+            document.getElementById('rus-btn').style.top = document.getElementById('rus-top').value + 'px';
+            document.getElementById('rus-btn').style.left = document.getElementById('rus-left').value + 'px';
+            document.getElementById('rus-btn').style.width = document.getElementById('rus-width').value + 'px';
+            document.getElementById('rus-btn').style.height = document.getElementById('rus-height').value + 'px';
+            
+            document.getElementById('srp-btn').style.top = document.getElementById('srp-top').value + 'px';
+            document.getElementById('srp-btn').style.left = document.getElementById('srp-left').value + 'px';
+            document.getElementById('srp-btn').style.width = document.getElementById('srp-width').value + 'px';
+            document.getElementById('srp-btn').style.height = document.getElementById('srp-height').value + 'px';
+            
+            document.getElementById('bul-btn').style.top = document.getElementById('bul-top').value + 'px';
+            document.getElementById('bul-btn').style.left = document.getElementById('bul-left').value + 'px';
+            document.getElementById('bul-btn').style.width = document.getElementById('bul-width').value + 'px';
+            document.getElementById('bul-btn').style.height = document.getElementById('bul-height').value + 'px';
+        }
+        
+        function copyHTML() {
+            const inputBox = document.getElementById('input-box');
+            const signinBtn = document.getElementById('signin-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const rusBtn = document.getElementById('rus-btn');
+            const srpBtn = document.getElementById('srp-btn');
+            const bulBtn = document.getElementById('bul-btn');
+            
+            const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DommyChat Sign In</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .image-container {
+            position: relative;
+        }
+        .input-box {
+            position: absolute;
+            top: ${inputBox.style.top};
+            left: ${inputBox.style.left};
+            width: ${inputBox.style.width};
+            height: ${inputBox.style.height};
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .signin-btn {
+            position: absolute;
+            top: ${signinBtn.style.top};
+            left: ${signinBtn.style.left};
+            width: ${signinBtn.style.width};
+            height: ${signinBtn.style.height};
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cancel-btn {
+            position: absolute;
+            top: ${cancelBtn.style.top};
+            left: ${cancelBtn.style.left};
+            width: ${cancelBtn.style.width};
+            height: ${cancelBtn.style.height};
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .language-btn {
+            position: absolute;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .rus-btn {
+            top: ${rusBtn.style.top};
+            left: ${rusBtn.style.left};
+            width: ${rusBtn.style.width};
+            height: ${rusBtn.style.height};
+        }
+        .srp-btn {
+            top: ${srpBtn.style.top};
+            left: ${srpBtn.style.left};
+            width: ${srpBtn.style.width};
+            height: ${srpBtn.style.height};
+        }
+        .bul-btn {
+            top: ${bulBtn.style.top};
+            left: ${bulBtn.style.left};
+            width: ${bulBtn.style.width};
+            height: ${bulBtn.style.height};
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="assets/background/kniga.png" alt="DommyChat Sign In">
+        
+        <input type="text" class="input-box" placeholder="Username or email">
+        <button class="signin-btn">Sign in</button>
+        <button class="cancel-btn">Cancel</button>
+        <button class="language-btn rus-btn">русский</button>
+        <button class="language-btn srp-btn">српски</button>
+        <button class="language-btn bul-btn">български</button>
+    </div>
+</body>
+</html>
+            `;
+            
+            const output = document.getElementById('html-output');
+            output.style.display = 'block';
+            output.textContent = html;
+            
+            navigator.clipboard.writeText(html).then(() => {
+                alert('HTML copied to clipboard!');
+            });
+        }
+        
+        // Initialize positions
+        updatePositions();
+    </script>
+</body>
+</html>

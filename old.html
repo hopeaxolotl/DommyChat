@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DommyChat</title>
+        <link rel="icon" type="image/png" href="assets/general/logo.png" />
+    <style>
+        * {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+            }
+
+            body {
+            background-image: url('assets/background/backgroundru.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            background-attachment: fixed;
+            }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        button {
+            cursor: pointer;
+        }
+
+        .login-screen {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .login-screen h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .login-screen input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-screen button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .login-screen button:hover {
+            background: #5a67d8;
+        }
+
+        .window {
+            background-color: #E9F3F6;
+            border: 1px solid #C4D5DF;
+            border-radius: 10px;
+            box-shadow: 2px 2px 20px rgba(0,0,0,.3);
+            height: 700px;
+            margin: auto;
+            width: 700px;
+            transform-origin: center center;
+            display: none;
+        }
+
+        .container {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: 1fr 170px;
+            grid-template-rows: 1fr 175px 10px;
+            height: 570px;
+            padding: 10px;
+        }
+
+        .item {
+            border: 2px solid #D2DDE0;
+            border-radius: 2px;
+        }
+
+        /* Top bar */
+        .bar {
+            border: 0;
+            grid-column: 1 / -1;
+        }
+        .bar__top {
+            display: flex;
+            padding: 10px;
+        }
+        .username {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        .logo {
+            height: 100%;
+            margin-right: 5px;
+            width: 30px;
+        }
+        .mood {
+            color: #989D9E;
+            font-size: .9rem;
+            letter-spacing: .5px;
+        }
+        .bar__bottom {
+            background: rgb(247,253,255);
+            background: linear-gradient(180deg, rgba(247,253,255,1) 0%, rgba(214,227,234,1) 50%, rgba(238,249,250,1) 100%);  
+            border-bottom: 1px solid #D2DDE0;
+            border-top: 1px solid #D2DDE0;
+            display: flex;
+            height: 50px;
+        }
+        .action__button {
+            background: transparent;
+            border: 0;
+            font-size: 1.5rem;
+            padding: 10px;
+        }
+        .action__button:active {
+            background: #E9F3F6;
+            outline: 1px solid #D2DDE0;
+        }
+
+        /* Profile pictures */
+        .img {
+            background-color: #FAFBFD;
+            max-height: 150px;
+            padding: 10px;
+        }
+        .img__img {
+            border: 1px solid #E4EBE3;
+            padding: 2px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            color: #666;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        /* Conversation area */
+        .conversation {
+            background-color: #FAFBFD;
+            overflow-y: auto;
+            padding: 5px;
+        }
+        .conversation p {
+            margin: 7px;
+        }
+        .message {
+            margin-left: 20px;
+        }
+        .status {
+            color: #666;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .nudge {
+            margin: 10px 0 20px 5px;
+            position: relative;
+            font-weight: bold;
+            color: #d63384;
+        }
+        .nudge:after {
+            border-top: 1px solid black;
+            content: "";
+            left: 0;
+            position: absolute;
+            top: 25px;
+            width: 60px;
+        }
+
+        /* Send message area */
+        .send-message {
+            display: grid;
+            grid-template-rows: 35px auto 23px;
+            width: 100%;
+        }
+        .send-message__buttons {
+            background: rgb(247,253,255);
+            background: linear-gradient(180deg, rgba(247,253,255,1) 0%, rgba(214,227,234,1) 50%, rgba(238,249,250,1) 100%);  
+            border-bottom: 1px solid #D2DDE0;
+            display: flex;
+        }
+        .send-message__button {
+            background: transparent;
+            border: 0;
+            font-size: 1.3rem;
+            padding: 5px;
+        }
+        .send-message__button:active {
+            background: #E9F3F6;
+            outline: 1px solid #D2DDE0;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+        }
+        .buttons button {
+            font-size: 1.05rem;
+            margin: 5px;
+            padding: 8px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 3px;
+        }
+        .buttons button:hover {
+            background: #e9ecef;
+        }
+        textarea {
+            background-color: #FAFBFD;
+            border: 0;
+            padding-left: 8px;
+            padding-top: 8px;
+            resize: none;
+            width: 100%;
+            font-family: sans-serif;
+        }
+        .send-message__textfield {
+            background-color: #FAFBFD;
+            display: flex;
+            justify-content: space-between;
+        }
+        .send-message__infos {
+            align-items: center;
+            background-color: #FBFBFF;
+            border-top: 1px solid #D2DDE0;
+            color: #8D8E88;
+            display: flex;
+            font-size: .85em;
+            padding-left: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            font-size: .9rem;
+            font-weight: bold;
+            letter-spacing: .8px;
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+        }
+        .footer a {
+            color: #30343A;
+            text-decoration: none;
+        }
+
+        /* Connection status */
+        .connection-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        .disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Settings panel */
+        .settings-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .settings-panel h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .settings-panel label {
+            display: block;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .settings-panel input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .settings-panel button {
+            margin: 10px 5px 0 0;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .settings-panel button:hover {
+            background: #e9ecef;
+        }
+
+        /* Nudge animation */
+        .is-nudged {
+            animation-name: nudge;
+            animation-duration: 100ms;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: 5;
+        }
+        @keyframes nudge {
+            0%, 100% { transform: translate(0, 0) rotate(0) }
+            25% { transform: translate(-2px, -2px) rotate(-1deg) }
+            50% { transform: translate(2px, 2px) rotate(1deg) }
+            75% { transform: translate(-1px, 1px) rotate(-0.5deg) }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <h1>🇲🇰 DommyChat</h1>
+        <p style="margin-bottom: 20px; color: #666;">enter autism</p>
+        <input type="text" id="displayNameInput" placeholder="Enter your display name" maxlength="30">
+        <button onclick="login()">enter</button>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="window" id="window">
+        <div class="connection-status disconnected" id="connectionStatus">Connecting...</div>
+        
+        <div class="bar">
+            <div class="bar__top">
+                <img class="logo" src="https://images.vectorhq.com/images/previews/4f8/msn-messenger-icon-psd-449180.png">
+                <div class="contact">
+                    <div class="username" id="chatTitle">dommychat main server</div>
+                    <div class="mood">ta n'ennym orrym kerron and the manx word of the day is Kiarkyl</div>
+                </div>
+            </div>
+            <div class="bar__bottom">
+                <button class="action__button" title="Settings" onclick="toggleSettings()">⚙️</button>
+                <button class="action__button" title="Clear chat" onclick="clearChat()">🗑️</button>
+                <button class="action__button" title="Notifications" onclick="toggleNotifications()">🔔</button>
+                <button class="action__button" title="Theme">🎨</button>
+                <button class="action__button" title="Help">❓</button>
+                <button class="action__button" title="Exit" onclick="logout()">❌</button>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="item conversation" id="conversation">
+                <p class="status">🌟 Welcome to DommyChat! Start chatting...</p>
+            </div>
+            
+            <div class="item img">
+                <div class="img__img">
+                    <div>Friend Image<br>Placeholder</div>
+                </div>
+            </div>
+            
+            <div class="item send-message">
+                <div class="send-message__buttons">
+                    <button class="send-message__button" title="Send an emoticon">😊</button>
+                    <button class="send-message__button" title="Send a wink">😉</button>
+                    <button class="send-message__button" id="nudge-button" title="Send a nudge" onclick="sendNudge()">🥴</button>
+                    <button class="send-message__button" title="Send a voice message">📢</button>
+                    <button class="send-message__button" title="Change the font">🔤</button>
+                    <button class="send-message__button" title="Change text color">🎨</button>
+                    <button class="send-message__button" title="Send an image">🏞</button>
+                    <button class="send-message__button" title="Send a gift">🎁</button>
+                </div>
+                <div class="send-message__textfield">
+                    <textarea id="messageInput" placeholder="Type your message here..." onkeydown="handleKeyPress(event)"></textarea>
+                    <div class="buttons">
+                        <button type="submit" onclick="sendMessage()"><u>S</u>end</button>
+                        <button onclick="clearInput()">Clea<u>r</u></button>
+                    </div>
+                </div>
+                <div class="send-message__infos" id="statusInfo">Ready to chat...</div>
+            </div>
+            
+            <div class="item img">
+                <div class="img__img">
+                    <div>Friend Image<br>Placeholder</div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <a href="#" onclick="showAbout()">dommychat 2.0 gen z version</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel">
+        <h3>Settings</h3>
+        <label>
+            <input type="checkbox" id="soundEnabled" checked> Sound Effects
+        </label>
+        <label>
+            <input type="checkbox" id="autoScrollEnabled" checked> Auto-scroll
+        </label>
+        <label>
+            <input type="checkbox" id="timestampsEnabled" checked> Show Timestamps
+        </label>
+        <label>
+            <input type="checkbox" id="dateFormatUS"> US Date Format (MM/DD/YYYY)
+        </label>
+        <div>
+            <button onclick="saveSettings()">Save</button>
+            <button onclick="toggleSettings()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Application state
+        let displayName = '';
+        let isConnected = false;
+        let lastTimestamp = 0;
+        let settings = {
+            soundEnabled: true,
+            autoScrollEnabled: true,
+            timestampsEnabled: true,
+            dateFormatUS: false,
+            notificationsEnabled: true
+        };
+
+        // Firebase configuration
+        const firebaseConfig = {
+            databaseURL: "https://dbapplescriptim-default-rtdb.firebaseio.com/"
+        };
+        let messageListener = null;
+        let displayedMessageIds = new Set(); // Track displayed messages to prevent duplicates
+
+        // Initialize application
+        function init() {
+            loadSettings();
+            updateConnectionStatus(false);
+        }
+
+        // Login functionality
+        function login() {
+            const nameInput = document.getElementById('displayNameInput');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('Please enter a display name');
+                return;
+            }
+            
+            displayName = name;
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('window').style.display = 'block';
+            
+            connectToChat();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to exit DommyChat?')) {
+                if (messageListener) {
+                    clearInterval(messageListener);
+                }
+                
+                document.getElementById('window').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('conversation').innerHTML = '<p class="status">🌟 Welcome to DommyChat! Start chatting...</p>';
+                document.getElementById('displayNameInput').value = '';
+                displayName = '';
+                isConnected = false;
+                lastTimestamp = 0;
+                displayedMessageIds.clear();
+                updateConnectionStatus(false);
+            }
+        }
+
+        // Chat functionality
+        function connectToChat() {
+            updateConnectionStatus(false, 'Connecting...');
+            
+            // Simulate connection delay
+            setTimeout(() => {
+                isConnected = true;
+                updateConnectionStatus(true);
+                startMessageListener();
+                
+                // Add join message
+                addSystemMessage(`${displayName} joined the chat`);
+                updateStatusInfo('Connected and ready to chat!');
+            }, 1000);
+        }
+
+        function startMessageListener() {
+            // Load initial messages first
+            fetchMessages();
+            
+            // Then start polling for new messages
+            messageListener = setInterval(() => {
+                fetchMessages();
+            }, 3000);
+        }
+
+        async function fetchMessages() {
+            try {
+                const response = await fetch(`${firebaseConfig.databaseURL}/messages.json`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data) {
+                        const messages = Object.entries(data)
+                            .map(([id, msg]) => ({ id, ...msg }))
+                            .filter(msg => msg.timestamp && typeof msg.timestamp === 'number')
+                            .sort((a, b) => a.timestamp - b.timestamp);
+                        
+                        // Only display messages we haven't shown yet
+                        const newMessages = messages.filter(msg => 
+                            !displayedMessageIds.has(msg.id) && 
+                            msg.timestamp > lastTimestamp
+                        );
+                        
+                        newMessages.forEach(msg => {
+                            displayMessage(msg);
+                            displayedMessageIds.add(msg.id);
+                            if (msg.timestamp > lastTimestamp) {
+                                lastTimestamp = msg.timestamp;
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+                updateConnectionStatus(false, 'Connection error');
+            }
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (!message || !isConnected) return;
+            
+            // Use Unix timestamp in seconds to match Python CLI
+            const messageData = {
+                sender: displayName,
+                message: message,
+                timestamp: Math.floor(Date.now() / 1000) // Convert to seconds
+            };
+            
+            // Send to server
+            fetch(`${firebaseConfig.databaseURL}/messages.json`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(messageData)
+            }).then(response => {
+                if (response.ok) {
+                    messageInput.value = '';
+                    playSound('sent');
+                } else {
+                    console.error('Failed to send message');
+                }
+            }).catch(error => {
+                console.error('Error sending message:', error);
+            });
+        }
+
+        function displayMessage(messageData) {
+            const conversation = document.getElementById('conversation');
+            const isOwnMessage = messageData.sender === displayName;
+            
+            const timestamp = settings.timestampsEnabled ? formatTimestamp(messageData.timestamp) : '';
+            const timeStr = timestamp ? `[${timestamp}] ` : '';
+            
+            if (messageData.type === 'nudge') {
+                const nudgeHtml = `<p class="nudge">${timeStr}${escapeHtml(messageData.sender)} sent a nudge!</p>`;
+                conversation.innerHTML += nudgeHtml;
+                
+                // Trigger nudge animation for everyone
+                const window = document.getElementById('window');
+                window.classList.add('is-nudged');
+                setTimeout(() => window.classList.remove('is-nudged'), 500);
+            } else {
+                const messageHtml = `
+                    <p>${timeStr}<strong>${escapeHtml(messageData.sender)}</strong> says:</p>
+                    <p class="message">${escapeHtml(messageData.message)}</p>
+                `;
+                conversation.innerHTML += messageHtml;
+            }
+            
+            if (settings.autoScrollEnabled) {
+                conversation.scrollTop = conversation.scrollHeight;
+            }
+            
+            if (!isOwnMessage) {
+                playSound('received');
+                if (settings.notificationsEnabled && document.hidden) {
+                    showNotification(messageData.sender, messageData.message);
+                }
+            }
+        }
+
+        function sendNudge() {
+            if (!isConnected) return;
+            
+            const nudgeData = {
+                sender: displayName,
+                message: '*** NUDGE ***',
+                timestamp: Math.floor(Date.now() / 1000), // Convert to seconds
+                type: 'nudge'
+            };
+            
+            fetch(`${firebaseConfig.databaseURL}/messages.json`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nudgeData)
+            }).then(response => {
+                if (response.ok) {
+                    playSound('nudge');
+                }
+            });
+        }
+
+        function clearChat() {
+            if (confirm('Clear all messages from this chat window?')) {
+                document.getElementById('conversation').innerHTML = '<p class="status">🌟 Chat cleared. Continue chatting...</p>';
+            }
+        }
+
+        // Utility functions
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('messageInput').value = '';
+        }
+
+        function formatTimestamp(timestamp) {
+            // Convert from seconds to milliseconds for Date constructor
+            const date = new Date(timestamp * 1000);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            
+            if (settings.dateFormatUS) {
+                return `${month}/${day}/${year} ${hours}:${minutes}`;
+            } else {
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function addSystemMessage(message) {
+            const conversation = document.getElementById('conversation');
+            conversation.innerHTML += `<p class="status">${message}</p>`;
+            
+            if (settings.autoScrollEnabled) {
+                conversation.scrollTop = conversation.scrollHeight;
+            }
+        }
+
+        function updateConnectionStatus(connected, message = '') {
+            const statusEl = document.getElementById('connectionStatus');
+            
+            if (connected) {
+                statusEl.className = 'connection-status connected';
+                statusEl.textContent = 'Connected';
+            } else {
+                statusEl.className = 'connection-status disconnected';
+                statusEl.textContent = message || 'Disconnected';
+            }
+        }
+
+        function updateStatusInfo(message) {
+            document.getElementById('statusInfo').textContent = message;
+        }
+
+        // Settings functionality
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function saveSettings() {
+            settings.soundEnabled = document.getElementById('soundEnabled').checked;
+            settings.autoScrollEnabled = document.getElementById('autoScrollEnabled').checked;
+            settings.timestampsEnabled = document.getElementById('timestampsEnabled').checked;
+            settings.dateFormatUS = document.getElementById('dateFormatUS').checked;
+            
+            // Store settings in memory (no localStorage in artifacts)
+            toggleSettings();
+            updateStatusInfo('Settings saved');
+        }
+
+        function loadSettings() {
+            // Initialize checkboxes with default settings
+            document.getElementById('soundEnabled').checked = settings.soundEnabled;
+            document.getElementById('autoScrollEnabled').checked = settings.autoScrollEnabled;
+            document.getElementById('timestampsEnabled').checked = settings.timestampsEnabled;
+            document.getElementById('dateFormatUS').checked = settings.dateFormatUS;
+        }
+
+        function toggleNotifications() {
+            settings.notificationsEnabled = !settings.notificationsEnabled;
+            updateStatusInfo(`Notifications ${settings.notificationsEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        // Sound and notification functions
+        function playSound(type) {
+            if (!settings.soundEnabled) return;
+            
+            // Create audio context for sound effects
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                if (type === 'sent') {
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                } else if (type === 'received') {
+                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                } else if (type === 'nudge') {
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                }
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (error) {
+                console.log('Audio not supported');
+            }
+        }
+
+        function showNotification(sender, message) {
+            if (Notification.permission === 'granted') {
+                new Notification(`${sender} says:`, {
+                    body: message,
+                    icon: 'https://images.vectorhq.com/images/previews/4f8/msn-messenger-icon-psd-449180.png'
+                });
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showNotification(sender, message);
+                    }
+                });
+            }
+        }
+
+        function showAbout() {
+            alert('dommychat\n\nbuilt by gabby todorov\n\nFeatures:\n• русское порно\n• бургер микроволнов');
+        }
+
+        // Initialize app when page loads
+        window.addEventListener('load', init);
+
+        // Request notification permission on page load
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+    </script>
+</body>
+</html>
