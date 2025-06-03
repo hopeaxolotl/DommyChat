@@ -24,7 +24,7 @@
     </div>
 
     <div class="mainwindow" id="chat">
-        <div class="connection-status disconnected" id="connectionStatus">Connecting...</div>
+        
         
         <div class="header">
             <div id="info">
@@ -59,14 +59,19 @@
                             <img class="arrowdown" src="assets/general/small_arrow_black.svg">
                         </button>
                         <div id="settingsPanel" class="settings-panel">
-                            <label class="checkbox">
-                                <input type="checkbox" id="soundEnabled"> Sound
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" id="dateFormatUS"> US Date Format
-                            </label>
-                            <button onclick="saveSettings()">Save Settings</button>
-                            <button onclick="toggleSettings()">Close</button>
+                            <div class="win7">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="soundEnabled">
+                                    <label for="soundEnabled">Sound</label>
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="dateFormatUS"> 
+                                    <label for="dateFormatUS">US Date Format</label>
+                                </label>
+                                <button onclick="changeLanguage()">Change Language</button>
+                                <button onclick="saveSettings()">Save Settings</button>
+                                <button onclick="toggleSettings()">Close</button>
+                            </div>
                         </div>
                     </div>
                 </ul>
@@ -138,6 +143,7 @@
                         <label>Габрель - Македонец</label>
                         <label>Тайлър е Мексиканец</label>
                     </div>
+                    <div class="connection-status disconnected" id="connectionStatus">Connecting...</div>
                 </div>
             </div>
         </div>

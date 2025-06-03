@@ -25,6 +25,13 @@ function init() {
     welcomeMsg.className = 'status-message';
     welcomeMsg.textContent = '🌟 Welcome to DommyChat! Start chatting...';
     display.appendChild(welcomeMsg);
+    
+    // Check for saved display name and auto-login if found
+    const savedName = localStorage.getItem('dommychat_lastDisplayName');
+    if (savedName) {
+        document.getElementById('displayNameInput').value = savedName;
+        login(); // Auto-login with saved name
+    }
 }
 
 function login() {
@@ -294,8 +301,13 @@ function saveSettings() {
 
     localStorage.setItem('dommychat_settings', JSON.stringify(settings));
     
-    updateStatusAlert('Settings saved');
-    toggleSettings(); 
+    // Save the current display name before refreshing
+    if (displayName) {
+        localStorage.setItem('dommychat_lastDisplayName', displayName);
+    }
+    
+    // Refresh the page
+    location.reload();
 }
 
 
